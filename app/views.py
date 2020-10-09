@@ -8,7 +8,7 @@ def base(request):
 
 
 def news(request):
-    News.objects.filter(id=3).update(title="this title has changed because id was 3 :)")
+    old = News.objects.filter(id=3).update(title="this title has changed because id was 3 :)")
     news = News.objects.all().order_by('-publish')
     context = {
         "title": "news page",
@@ -18,8 +18,12 @@ def news(request):
 
 
 def blog(request):
-    Blog.objects.filter(id=3).delete()
-    blog = Blog.objects.all().order_by('-id')[:1]
+    old=Blog.objects.filter(name="newwwwww")
+    for older in old:
+
+        new=Blog.objects.create(name="new2", content=f"this content created because blog object {older.name} have been deleted")
+    old.delete()
+    blog = Blog.objects.all().order_by('-id')[:4]
     context = {
         "title": "blog page",
         "blog": blog
